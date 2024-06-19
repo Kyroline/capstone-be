@@ -13,7 +13,7 @@ export const ProcessNotification = async (msg) => {
     if (messageJson.community) {
         // const notifiedUsers = await CommunityUser.find({ community: messageJson.community, notification: true })
         const notifiedUsers = await CommunityUser.aggregate([
-            { $match: { community: mongoose.Types.ObjectId(new mongoose.Types.ObjectId(messageJson.community)) } },
+            { $match: { community: new mongoose.Types.ObjectId(messageJson.community) } },
             {
                 $replaceRoot: { newRoot: '$user' }
             }
@@ -38,7 +38,7 @@ export const ProcessNotification = async (msg) => {
         }
     } else {
         const notifiedUsers = await UserFollower.aggregate([
-            { $match: { user: mongoose.Types.ObjectId(new mongoose.Types.ObjectId(messageJson.post.user)) } },
+            { $match: { user: new mongoose.Types.ObjectId(messageJson.post.user) } },
             {
                 $replaceRoot: { newRoot: '$follower' }
             }
